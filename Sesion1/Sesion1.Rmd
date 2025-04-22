@@ -1,0 +1,81 @@
+---
+title: "Sesión 1: Introducción a R"
+output: html_document
+---
+
+# Objetos en R
+
+En R, un **objeto** es una entidad que guarda datos en la memoria RAM. Todos los cálculos que hacemos se almacenan o usan a través de estos objetos.
+
+## Tipos de datos en R
+
+- **Numeric**: Números reales (e.g., `365`, `250`)
+- **Logical**: Verdadero o falso (`TRUE`, `FALSE`)
+- **Character**: Texto encerrado entre comillas (`"Hola"`, `"123"`, `"FALSE"`)
+
+## Asignación de valores a objetos
+
+```r
+# Correcto
+mi_objeto <- 2
+MiObjetoNumerico <- 2
+Numer_as_character <- "2"
+Objeto_logico <- FALSE
+
+# Verificando tipo y longitud
+class(mi_objeto)
+length(mi_objeto)
+
+# Incorrecto (no correr)
+# Mi Objeto
+# Mi-Objeto
+```
+
+# Vectores
+
+Podemos guardar múltiples valores del mismo tipo en un vector usando la función `c()`:
+
+```r
+Nombres <- c("Eric", "Rodrigo", "Raul", "Maria", "Juan")
+Edades <- c(18, 30, 25, 40, 2)
+Enfermedad <- c(TRUE, FALSE, FALSE, TRUE, TRUE)
+
+# Verificamos el tipo y tamaño
+class(Edades)
+length(Edades)
+```
+
+# Operaciones con vectores
+
+```r
+Temperatura <- c(50, 10, 25 , 100 ,147)
+Temp_kelvin <- Temperatura + 273
+
+# Multiplicación y división
+Temperatura * 2
+Temperatura / 10
+
+# Operaciones entre vectores
+Temp_kelvin - Temperatura
+
+# Error común: vectores de distinta longitud
+vector_3 <- c(1, 2, 3)
+vector_2 <- c(10, 2)
+vector_3 * vector_2  # Esto generará un warning
+```
+
+# Conversiones de tipo
+
+```r
+# Character a numérico
+as.numeric("2")
+
+# Numérico a character
+as.character(2)
+
+# Character a lógico
+as.logical("FALSE")
+
+# Lógico a character
+as.character(FALSE)
+```
