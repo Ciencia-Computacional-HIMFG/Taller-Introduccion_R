@@ -27,8 +27,7 @@ El taller consta de **10 sesiones**, cada una enfocada en un tema clave. Los mat
 |--------|------|-------------|
 | 1 | ¿Qué es R y RStudio?<br>Objetos<br>Tipos de variables<br>Vectores | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion1/Sesion1.html) |
 | 2 | Matrices<br>Dataframes<br>Seleccionando filas y columnas<br>rownames y colnames | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion2/Sesion2.html) |
-| 3 | ¿Qué es una librería?<br>Caso práctico: Análisis de correlación | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion3/Sesion3.html)
- |
+| 3 | ¿Qué es una librería?<br>Caso práctico: Análisis de correlación | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion3/Sesion3.html) |
 | 4 | Operadores racionales y lógicos<br>Utilidad de vectores lógicos<br>Condicionales: if, else, ifelse | *(Próximamente)* |
 | 5 | Descargando datos públicos<br>Caso práctico: análisis de supervivencia | *(Próximamente)* |
 | 6 | Factores<br>Visualización con `ggplot2` | *(Próximamente)* |
