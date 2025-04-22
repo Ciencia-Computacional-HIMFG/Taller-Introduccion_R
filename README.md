@@ -19,7 +19,6 @@ Este taller está pensado especialmente para:
 No se requiere experiencia previa en programación.
 
 ## 🧭 Estructura del taller
-[Próximamente](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion4/Sesion4.html)
 
 
 El taller consta de **10 sesiones**, cada una enfocada en un tema clave. Los materiales incluyen scripts `.R`, explicaciones en archivos `.Rmd`, y ejercicios prácticos.
