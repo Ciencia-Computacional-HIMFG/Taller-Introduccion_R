@@ -24,7 +24,7 @@ El taller consta de **10 sesiones**, cada una enfocada en un tema clave. Los mat
 
 | Sesión | Tema |
 |--------|------|
-| 1      | ¿Qué es R y Rstudio?, objetos, tipos de variables, vectores |
+| 1      | [¿Qué es R y RStudio?, objetos, tipos de variables, vectores](./Sesion1/Sesion1.html) | 
 | 2      | Matrice, dataframes, seleccionando filas y columnas |
 | 3      | Manejando rownames y colnames, ¿Qué es una librería?, Caso práctico: Análisis de correlación |
 | 4      | Operadores racionales y lógicos, utilidad de vectores lógicos, Condicionales: if; else; ifelse |
