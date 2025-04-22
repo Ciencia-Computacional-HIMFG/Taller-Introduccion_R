@@ -22,18 +22,19 @@ No se requiere experiencia previa en programación.
 
 El taller consta de **10 sesiones**, cada una enfocada en un tema clave. Los materiales incluyen scripts `.R`, explicaciones en archivos `.Rmd`, y ejercicios prácticos.
 
-| Sesión | Tema |
-|--------|------|
-| 1      | [¿Qué es R y RStudio?, objetos, tipos de variables, vectores](./Sesion1/Sesion1.html) | 
-| 2      | Matrice, dataframes, seleccionando filas y columnas |
-| 3      | Manejando rownames y colnames, ¿Qué es una librería?, Caso práctico: Análisis de correlación |
-| 4      | Operadores racionales y lógicos, utilidad de vectores lógicos, Condicionales: if; else; ifelse |
-| 5      | Descargando datos públicos; Caso práctico: análisis de supervivencia |
-| 6      | Factores, visualización con `ggplot2` |
-| 7      | Listas y Bucles |
-| 8      | Funciones personalizadas, expresiones regulares (regex) |
-| 9      | Manejando y limpiando datos |
-| 10     | Caso práctico: Análisis de expresión diferencial y PCA |
+| Sesión | Tema | Enlace HTML |
+|--------|------|-------------|
+| 1 | ¿Qué es R y RStudio?, objetos, tipos de variables, vectores | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion1/Sesion1.html) |
+| 2 | Matrices, dataframes, seleccionando filas y columnas | *(Próximamente)* |
+| 3 | Manejando rownames y colnames, ¿Qué es una librería?; Caso práctico: Análisis de correlación | *(Próximamente)* |
+| 4 | Operadores racionales y lógicos, utilidad de vectores lógicos, Condicionales: if, else, ifelse | *(Próximamente)* |
+| 5 | Descargando datos públicos; Caso práctico: análisis de supervivencia | *(Próximamente)* |
+| 6 | Factores, visualización con `ggplot2` | *(Próximamente)* |
+| 7 | Listas y Bucles | *(Próximamente)* |
+| 8 | Funciones personalizadas, expresiones regulares (regex) | *(Próximamente)* |
+| 9 | Manejo y limpieza de datos | *(Próximamente)* |
+| 10 | Caso práctico: Análisis de expresión diferencial y PCA | *(Próximamente)* |
+
 
 ## 📁 Estructura del repositorio
 
