@@ -1,0 +1,46 @@
+---
+title: "Sesión 3: Uso de librerías y análisis de correlación"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Uso de R base para manipular nombres de filas
+
+```{r}
+mi_tabla <- mtcars
+mi_tabla$Marca <- rownames(mi_tabla)
+rownames(mi_tabla) <- NULL
+rownames(mi_tabla) <- mi_tabla$Marca
+mi_tabla$Marca <- NULL
+```
+
+## 2. Uso de la librería `tibble`
+
+```{r}
+# install.packages("tibble")  # Descomenta si no está instalada
+library(tibble)
+
+# Dos formas de usar la función
+otra_tabla <- rownames_to_column(mtcars, var = "rowname")
+tabla_nueva <- tibble::rownames_to_column(mtcars, var = "rowname")
+```
+
+## 3. Análisis de correlación
+
+```{r}
+cor_res <- cor(mtcars)
+
+# install.packages("corrplot")  # Descomenta si no está instalada
+library(corrplot)
+corrplot(cor_res)
+```
+
+## 4. Valores p y agrupamiento jerárquico
+
+```{r}
+testRes <- cor.mtest(mtcars, conf.level = 0.95)
+corrplot(cor_res, p.mat = testRes$p, sig.level = 0.05, order = 'hclust')
+```
