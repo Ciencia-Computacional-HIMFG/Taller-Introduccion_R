@@ -11,7 +11,7 @@
 
 
 
-<title>Sesión 1: Introducción a R</title>
+<title>Sesión 2: Matrices, data frames y selección</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,99 +348,90 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Sesión 1: Introducción a R</h1>
+<h1 class="title toc-ignore">Sesión 2: Matrices, data frames y
+selección</h1>
 
 </div>
 
 
-<div id="objetos-en-r" class="section level1">
-<h1>Objetos en R</h1>
-<p>En R, un <strong>objeto</strong> es una entidad que guarda datos en
-la memoria RAM. Todos los cálculos que hacemos se almacenan o usan a
-través de estos objetos.</p>
-<div id="tipos-de-datos-en-r" class="section level2">
-<h2>Tipos de datos en R</h2>
+<div id="construir-tabla-a-partir-de-vectores" class="section level1">
+<h1>Construir tabla a partir de vectores</h1>
+<pre class="r"><code>Pacientes &lt;- c(&quot;Juan&quot;, &quot;Pepe&quot;, &quot;Maria&quot;, &quot;Lola&quot;, &quot;Luis&quot;)
+Edad &lt;- c(10, 5, 4, 3, 5)
+Temp &lt;- c(36.5, 37, 37.5, 37.3, 37.5)
+Analito_B &lt;- c(0.02, 0.05, 0.1, 1.1, 0.0001)
+Enfermedad &lt;- c(FALSE, TRUE, TRUE, TRUE, TRUE)
+Tipo_enfermedad &lt;- c(&quot;Sano&quot;, &quot;Flu&quot;, &quot;Flu&quot;, &quot;Flu&quot;, &quot;Anemia&quot;)
+
+Kelvin &lt;- Temp + 273
+Kelvin</code></pre>
+</div>
+<div id="construir-matrices-con-funcion-cbind-unir-por-columna-rbind-unir-por-fila" class="section level1">
+<h1>Construir matrices con funcion <code>cbind</code> (unir por columna)
+<code>rbind</code> (unir por fila)</h1>
+<pre class="r"><code>mi_tabla &lt;- cbind(Pacientes, Edad, Kelvin, Analito_B, Enfermedad, Tipo_enfermedad)
+# Revisar dimensiones. Se despliegan primero filas y luego columnas
+dim(mi_tabla)
+nrow(mi_tabla)
+ncol(mi_tabla)
+# Desplegar primeras seis filas o las primeras n
+head(mi_tabla)
+head(mi_tabla, 25)
+# Tipo de tabla (matriz o dataframe)
+class(mi_tabla)</code></pre>
+</div>
+<div id="selección-de-filas-y-columnas.-se-seleccionan-de-la-siguiente-forma-filascolumnas.-se-indica-el-numero-de-las-filas-y-las-columnas-que-se-desean-seleccionar" class="section level1">
+<h1>Selección de filas y columnas. Se seleccionan de la siguiente forma
+[filas,columnas]. Se indica el numero de las filas y las columnas que se
+desean seleccionar</h1>
+<pre class="r"><code>mi_tabla[1:5, 4]
+mi_tabla[, 4]
+mi_tabla[c(2, 5), 3]</code></pre>
+</div>
+<div id="las-matrices-solamente-pueden-contener-valores-de-un-solo-tipo.-convertimos-de-matriz-a-data.frame-para-poder-tener-columnas-con-valores-de-distintos-tipos" class="section level1">
+<h1>Las matrices solamente pueden contener valores de un solo tipo.
+Convertimos de matriz a <code>data.frame</code> para poder tener
+columnas con valores de distintos tipos</h1>
+<pre class="r"><code>mi_df &lt;- as.data.frame(mi_tabla)
+class(mi_df)</code></pre>
+</div>
+<div id="con-un-data.frame-podemos-seleccionar-columnas-de-3-formas-distintas" class="section level1">
+<h1>Con un <code>data.frame</code> podemos seleccionar columnas de 3
+formas distintas</h1>
+<pre class="r"><code># Indicando el numero de filas, columnas
+mi_df[1:5, 2]
+# Escribiendo el nombre de la columna o fila como caracter 
+mi_df[, &quot;Edad&quot;]
+# Indicano la columna con un `$` (esta forma no funciona con matrices)
+mi_df$Edad</code></pre>
+</div>
+<div id="se-puede-convertir-el-tipo-de-variable-de-cada-columna-y-guardala-los-cambios-en-el-mismo-dataframe-de-la-siguiente-forma" class="section level1">
+<h1>Se puede convertir el tipo de variable de cada columna y guardala
+los cambios en el mismo dataframe de la siguiente forma:</h1>
+<pre class="r"><code># Modifiquemos las columnas de las 3 formas para practicar
+mi_df[, 2] &lt;- as.numeric(mi_df[, 2])
+mi_df[, &quot;Kelvin&quot;] &lt;- as.numeric(mi_df[, &quot;Kelvin&quot;])
+mi_df$Analito_B &lt;- as.numeric(mi_df$Analito_B)</code></pre>
+</div>
+<div id="valores-logicos-se-pueden-convertir-a-numericos-y-viceversa" class="section level1">
+<h1>Valores logicos se pueden convertir a numericos y viceversa</h1>
+<pre class="r"><code>class(mi_df$Enfermedad)
+mi_df$Enfermedad &lt;- as.logical(mi_df$Enfermedad)
+mi_df$logico_numerico &lt;- as.numeric(mi_df$Enfermedad)</code></pre>
+</div>
+<div id="escencial-entender-rownames-y-colnames" class="section level1">
+<h1>Escencial entender rownames y colnames</h1>
+<p>Las funciones <code>rownames()</code> y <code>colnames()</code>
+permiten asignar o consultar los nombres de filas y columnas en un
+<code>data.frame</code> o matriz. Esto es útil porque:</p>
 <ul>
-<li><strong>Numeric</strong>: Números reales (e.g., <code>365</code>,
-<code>250</code>)</li>
-<li><strong>Logical</strong>: Verdadero o falso (<code>TRUE</code>,
-<code>FALSE</code>)</li>
-<li><strong>Character</strong>: Texto encerrado entre comillas
-(<code>&quot;Hola&quot;</code>, <code>&quot;123&quot;</code>, <code>&quot;FALSE&quot;</code>)</li>
+<li>Mejora la legibilidad de los datos.</li>
+<li>Permite seleccionar columnas por nombre en vez de número.</li>
+<li>Hace más claro el resultado de operaciones como filtrado o
+resumen.</li>
 </ul>
-</div>
-<div id="asignación-de-valores-a-objetos" class="section level2">
-<h2>Asignación de valores a objetos</h2>
-<p>Usar buenas prácticas para nombrar objetos como
-<code>snake_case</code> (usando guiones bajos) o <code>CamelCase</code>
-(la primera letra de cada palabra en mayúscula). Evitar usar espacios,
-guiones medios <code>-</code> y acentos.</p>
-<pre class="r"><code># Correcto
-mi_objeto &lt;- 2
-MiObjetoNumerico &lt;- 2
-Numer_as_character &lt;- &quot;2&quot;
-Objeto_logico &lt;- FALSE
-
-# Verificando tipo y longitud
-class(mi_objeto)
-length(mi_objeto)
-
-# Incorrecto (no correr)
-# Mi Objeto
-# Mi-Objeto</code></pre>
-</div>
-</div>
-<div id="vectores" class="section level1">
-<h1>Vectores</h1>
-<p>Podemos guardar múltiples valores del mismo tipo en un vector usando
-la función <code>c()</code>:</p>
-<pre class="r"><code>Nombres &lt;- c(&quot;Eric&quot;, &quot;Rodrigo&quot;, &quot;Raul&quot;, &quot;Maria&quot;, &quot;Juan&quot;)
-Edades &lt;- c(18, 30, 25, 40, 2)
-Enfermedad &lt;- c(TRUE, FALSE, FALSE, TRUE, TRUE)
-
-# Verificamos el tipo y tamaño
-class(Edades)
-length(Edades)</code></pre>
-</div>
-<div id="operaciones-con-vectores" class="section level1">
-<h1>Operaciones con vectores</h1>
-<pre class="r"><code>Temperatura &lt;- c(50, 10, 25 , 100 ,147)
-Temp_kelvin &lt;- Temperatura + 273
-
-# Multiplicación y división
-Temperatura * 2
-Temperatura / 10
-
-# Operaciones entre vectores
-Temp_kelvin - Temperatura
-
-# Error común: vectores de distinta longitud
-vector_3 &lt;- c(1, 2, 3)
-vector_2 &lt;- c(10, 2)
-vector_3 * vector_2  # Esto generará un warning</code></pre>
-</div>
-<div id="generar-secuencia-con" class="section level1">
-<h1>Generar secuencia con <code>:</code></h1>
-<pre class="r"><code>vector_largo &lt;- 1:1000</code></pre>
-</div>
-<div id="seleccionar-elementos-especificos-del-vector-con" class="section level1">
-<h1>Seleccionar elementos especificos del vector con
-<code>[]</code></h1>
-<pre class="r"><code>vector_largo[35]</code></pre>
-</div>
-<div id="conversiones-de-tipo" class="section level1">
-<h1>Conversiones de tipo</h1>
-<pre class="r"><code># Character a numérico
-as.numeric(&quot;2&quot;)
-
-# Numérico a character
-as.character(2)
-
-# Character a lógico
-as.logical(&quot;FALSE&quot;)
-
-# Lógico a character
-as.character(FALSE)</code></pre>
+<pre class="r"><code>colnames(mi_df)
+rownames(mi_df)</code></pre>
 </div>
 
 

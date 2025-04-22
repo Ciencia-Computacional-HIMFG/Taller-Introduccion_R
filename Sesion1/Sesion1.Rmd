@@ -65,6 +65,17 @@ vector_3 <- c(1, 2, 3)
 vector_2 <- c(10, 2)
 vector_3 * vector_2  # Esto generará un warning
 ```
+# Generar secuencia con `:`
+
+```r
+vector_largo <- 1:1000
+```
+
+# Seleccionar elementos especificos del vector con `[]`
+
+```r
+vector_largo[35]
+```
 
 # Conversiones de tipo
 
