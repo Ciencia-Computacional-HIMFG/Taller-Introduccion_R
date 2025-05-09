@@ -1,0 +1,230 @@
+---
+title: "Sesión 4: Condicionales y operadores"
+output: html_document
+---
+
+# 🧩 Operadores lógicos en R
+Los operadores relacionales comparan valores y devuelven TRUE o FALSE según si la condición se cumple o no.
+
+## `>` (mayor que)
+
+```r
+5 > 3
+2 > 10
+
+edad <- 30
+edad > 18
+```
+
+## `<` (menor que)
+
+```r
+3 < 5
+10 < 2
+
+Temp <- c(36.5, 37, 35.9, 38)
+Temp < 36
+```
+
+## `>=` (mayor o igual que)
+
+```r
+5 >= 5
+6 >= 5
+4 >= 5
+
+notas <- c(7, 8, 9, 6)
+notas >= 8
+```
+
+## `<=` (menor o igual que)
+
+```r
+3 <= 3
+2 <= 5
+7 <= 6
+
+edades <- c(5, 12, 8, 10, 15)
+edades <= 10
+```
+
+## `==` (igualdad exacta)
+
+```r
+"R" == "R"
+1 == 1
+"R" == "r"
+
+diagnostico <- c("Sano", "Flu", "Flu", "Anemia")
+diagnostico == "Flu"
+```
+
+## `%in%` (pertenencia)
+
+```r
+"Flu" %in% c("Sano", "Flu", "Anemia")
+"Covid" %in% c("Sano", "Flu", "Anemia")
+
+tipo <- c("Sano", "Flu", "Anemia", "Covid")
+tipo %in% c("Flu", "Covid")
+```
+
+## `!=` (diferente de)
+
+```r
+5 != 3
+"R" != "R"
+
+estado_salud <- c("Sano", "Flu", "Anemia", "Sano")
+estado_salud != "Sano"
+```
+
+
+# 🧩 Filtrado condicional con vectores lógicos
+
+En esta sección aprenderás a usar operadores combinados con vectores lógicos para seleccionar filas específicas de un data frame, sin necesidad de usar índices numéricos ni nombres directamente.
+
+## Coches con 3 o más carburadores
+
+```r
+vect_logico <- mtcars$carb >= 3
+sub_mtcars <- mtcars[vect_logico, ]
+```
+
+Creamos un vector lógico donde cada valor indica si el coche correspondiente tiene 3 o más carburadores. Luego usamos este vector como filtro para seleccionar solo las filas que cumplen la condición.
+
+---
+
+## Coches con desplazamiento (`disp`) mayor a 160
+
+```r
+vect_log_expr <- mtcars$disp > 160
+cars_high <- mtcars[vect_log_expr, ]
+cars_high$Condicion <- "High"
+```
+
+Esta técnica permite trabajar con subconjuntos del data frame y añadirles nuevas columnas si se desea etiquetar.
+
+---
+
+## Coches con 6 cilindros **y** más de 110 caballos
+
+```r
+vect_cyl_hp <- mtcars$cyl == 6 & mtcars$hp > 110
+cars_cyl_hp <- mtcars[vect_cyl_hp, ]
+```
+
+El operador `&` asegura que **ambas condiciones** se cumplan al mismo tiempo.
+
+---
+
+## Coches con más de 4 marchas **o** peso menor a 2.5
+
+```r
+vect_gear_wt <- mtcars$gear > 4 | mtcars$wt < 2.5
+cars_or <- mtcars[vect_gear_wt, ]
+```
+
+El operador `|` selecciona las filas donde **al menos una condición** se cumpla.
+
+---
+
+## Coches que **no** tienen 4 cilindros
+
+```r
+vect_not4 <- mtcars$cyl != 4
+cars_not4 <- mtcars[vect_not4, ]
+```
+
+El operador `!=` permite excluir valores.
+
+---
+
+## Coches con nombres que contienen "Mazda"
+
+```r
+vect_mazda <- grepl("Mazda", rownames(mtcars))
+mazda_cars <- mtcars[vect_mazda, ]
+```
+
+`grepl()` evalúa si una cadena de texto está presente dentro del nombre de cada fila.
+
+---
+
+# 🧩 Condicionales en R
+
+Las estructuras `if`, `else if` y `else` permiten ejecutar instrucciones de forma condicional. Evalúan si una condición lógica es `TRUE` o `FALSE`.
+
+## ✅ Ejemplo básico
+
+```r
+if (10 > 100) {
+  1 + 1
+}
+
+if (TRUE) {
+  1 + 1
+}
+```
+
+## ✅ Condiciones con `print()`
+
+```r
+if (3 > 2) {
+  print("Entra al condicional")
+}
+
+if (2 > 3) {
+  print("Entra al condicional")
+}
+```
+
+## ✅ Uso de `else`
+
+```r
+if (2 > 3) {
+  print("Es verdadero")
+} else {
+  print("Es falso")
+}
+```
+
+## ✅ Uso de `else if`
+
+```r
+hoy <- "Viernes"
+
+if (hoy == "Viernes") {
+  print("Lo vemos el lunes")
+} else if (hoy %in% c("Sabado", "Domingo")) {
+  print("Hoy no trabajo")
+} else {
+  print("De inmediato")
+}
+```
+
+## ⚠️ Error común: usar vectores en `if`
+
+```r
+if (mtcars$disp > 160) {
+  "High"
+} else {
+  "Low"
+}
+```
+
+Este código da error porque `mtcars$disp > 160` genera un vector lógico, y `if` solo acepta un único valor `TRUE` o `FALSE`.
+
+## ✅ Solución: `ifelse()` para condiciones vectorizadas
+
+```r
+ifelse(mtcars$disp > 160, "High", "Low")
+```
+
+## 🧪 Ejercicio práctico
+
+```r
+edades <- c(5, 12, 18, 25, 65)
+ifelse(edades < 18, "Menor", "Adulto")
+```
+---
