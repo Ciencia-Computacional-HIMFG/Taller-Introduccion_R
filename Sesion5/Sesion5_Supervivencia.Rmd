@@ -1,0 +1,133 @@
+---
+title: "Sesión 5: Análisis de Supervivencia y Preparación de Datos"
+output: html_document
+---
+
+# 📁 Directorio de trabajo en R
+
+R necesita saber en qué carpeta buscar y guardar archivos. Esta carpeta se llama **directorio de trabajo**.
+
+```r
+# Ver el directorio de trabajo actual
+getwd()
+
+# Cambiar el directorio de trabajo (ajusta a tu ruta)
+setwd("D:/Taller_R")
+```
+
+---
+
+# 📂 Importación de archivos
+
+## 1. Usando la interfaz gráfica
+
+En RStudio:
+- Ve a "Import Dataset" > "From Text (base)"
+- Busca el archivo (evita acentos, espacios y guiones en el nombre)
+- Asegúrate de seleccionar `Header = Yes` si el archivo tiene encabezados.
+
+## 2. Vía código
+Es muy recomendable familiarizarse con este entorno si en algún momento se desea trabajar con datos que requieren mayor capacidad de cómputo, ya que los equipos con mayor rendimiento suelen carecer de interfaz gráfica y todo se gestiona mediante línea de comandos.
+
+Existen dos formas de indicar una ruta:
+
+```r
+# Establece el directorio y revisa archivos disponibles
+setwd("D:/Taller_R")
+list.files()
+
+# Opción 1: Ruta relativa. Estando posicionado en el directorio
+tabla_ejercicio <- read.delim("tabla_ejercicio.csv", sep = "\t", header = TRUE)
+
+# Opción 2: Ruta completa (Recomendado)
+tabla_ejercicio <- read.delim("D:/Taller_R/Sesion5/tabla_ejercicio.csv", sep = "\t", header = TRUE)
+```
+
+---
+
+# 📦 Instalación de paquetes
+
+Es recomendable instalar versiones específicas para reproducibilidad.
+
+```r
+install.packages("remotes", repos = "https://cloud.r-project.org")
+
+remotes::install_version("survival", version = "3.5.5", repos = "https://cloud.r-project.org")
+remotes::install_version("survminer", version = "0.5.0", repos = "https://cloud.r-project.org")
+```
+
+Luego carga las librerías:
+
+```r
+library(survival)
+library(survminer)
+```
+
+---
+
+# 🛠 Preparación de los datos con `ifelse()`
+
+Con un inspeccion rapida con `head` podemos notar que el status del paciente (Event) no está en el formato adecuado
+
+```r
+# Revisar los primeros registros
+head(tabla_ejercicio)
+
+# Re-codificar columna 'Event': transformar "0:LIVING" en 0 y todo lo demás en 1
+tabla_ejercicio$Event <- ifelse(tabla_ejercicio$Event == "0:LIVING", 0, 1)
+```
+
+---
+
+## 🎯 Agrupación basada en la expresión de un gen
+
+Debemos crear una columna que indique como se van a agrupar nuestras muestras.
+Queremos clasificar las muestras en función de la expresión de TP53.
+
+```r
+# Averiguar el rango de expresión
+quantile(tabla_ejercicio$TP53)
+```
+Basado en el rango de los datos, proponemos 1 como limite para catalogar muestras como "High" y -1 para catalogar muestras como "Low"
+
+```r
+# Clasificación en 3 grupos usando ifelse anidados
+# Colocar el agrupamiento en una nueva columna dentro del dataframe
+tabla_ejercicio$Group <- ifelse(tabla_ejercicio$TP53 > 1, "High",
+                                ifelse(tabla_ejercicio$TP53 < -1, "Low", "Medium"))
+
+# Ver número de muestras por grupo
+table(tabla_ejercicio$Group)
+```
+
+**Nota**: Se recomienda eliminar el grupo "Medium" para contrastar sólo casos extremos:
+
+```r
+surv_ready <- tabla_ejercicio[tabla_ejercicio$Group != "Medium", ]
+```
+
+---
+
+# 📊 Análisis de Supervivencia
+
+Debemos indicar las columnas donde viene el tiempo (Months), status (vivo o muerto) (Event) y la agrupación de las muestras (Group)
+
+```r
+# Crear modelo de supervivencia
+km.results <- survfit(Surv(Months, Event) ~ Group, data = surv_ready)
+
+# Grafica sencilla, solo necesita 2 parametros.
+ggsurvplot(fit = km.results, data = surv_ready)
+```
+
+### 🎨 Gráfica personalizada con mas parámetros
+
+```r
+ggsurvplot(fit = km.results, data = surv_ready, 
+           pval = TRUE,
+           # Tabla especificando pacientes remanentes en el estudio y su respectivo status
+           risk.table = "nrisk_cumevents",
+           break.x.by = 50)
+```
+
+Esto mostrará la curva de supervivencia por grupo, el valor de *p* y una tabla con el número de pacientes remanentes en cada tiempo.

@@ -33,7 +33,7 @@ tabla_nueva <- tibble::rownames_to_column(mtcars, var = "rowname")
 ## 3. Análisis de correlación
 Se puede realizar un análisis de correlación con solamente 2 líneas de código.
 `cor` calcula la matriz de correlación en un solo paso.
-`corrplot` nos permite grafica la matriz de correlación en un segundo paso.
+`corrplot` nos permite graficar la matriz de correlación en un segundo paso.
 
 ```{r}
 cor_matrix <- cor(mtcars)
@@ -44,7 +44,7 @@ corrplot(cor_matrix)
 ```
 
 ## 4. Valores p y agrupamiento jerárquico
-Se puede modificar el plot base que obtenemos con `corrplot` para obtener un gráfico con mas información como el p-val, clusterización jerárquica e incluso modificar la paleta de colores entre otros
+Se puede modificar el gráfico base que obtenemos con `corrplot` para obtener un gráfico con mas información como el p-val, clusterización jerárquica e incluso modificar la paleta de colores entre otros
 
 ```{r}
 # Primero calculamos el valor de p con:
@@ -59,10 +59,3 @@ corrplot(cor_matrix,
          col = colorRampPalette(rev(c("red", "white", "blue")))(200) 
          )
 ```
-
-corrplot(cor_matrix,
-         method = "color",         # default, just to be explicit
-         col = colorRampPalette(rev(c("red", "white", "blue")))(200),
-         type = "upper",           # or "full"
-         order = "hclust",         # clustered ordering
-         addCoef.col = "black")    # add correlation coefficients
