@@ -47,9 +47,9 @@ El taller consta de **10 sesiones**, cada una enfocada en un tema clave. Los mat
 
 ## 🚀 ¿Cómo usar este material?
 
-Puedes descargar el repositorio o clonarlo usando Git:
+Puedes consultar fácilmente el archivo `.Rmd` de cada sesión dado clic al enlace disponible en la tabla de la estructura del taller.
+
+También puedes descargar el repositorio o clonarlo usando Git:
 
 ```bash
 git clone https://github.com/Ciencia-Computacional-HIMFG/Taller-Introduccion_R.git
-
-También puedes consultar fácilmente el archivo `.Rmd` de cada sesión dado clic al enlace disponible en la tabla de la estructura del taller.
