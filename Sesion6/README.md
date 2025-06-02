@@ -27,7 +27,7 @@ En esta sesión se abordan tres conceptos fundamentales del lenguaje R:
 ## 📄 Archivos incluidos
 
 - `Sesion6.Rmd`: archivo con ejemplos explicativos y ejercicios prácticos.
-- Archivos adicionales complementarios: [Descargar material adicional (PDF)](RGraphicsCookbook.pdf)
+- Archivos adicionales complementarios: [Recetario para graficar con ggplot2 (PDF)](RGraphicsCookbook.pdf)
 
 
 ---

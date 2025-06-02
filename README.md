@@ -31,7 +31,7 @@ El taller consta de **10 sesiones**, cada una enfocada en un tema clave. Los mat
 | 4 | Operadores racionales y lógicos<br>Utilidad de vectores lógicos<br>Condicionales: if, else, ifelse | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion4/Sesion4.html) |
 | 5 | El directorio de trabajo<br>Descargando datos públicos<br>Caso práctico: análisis de supervivencia | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion5/Sesion5.html) |
 | 6 | Vectores nombrados<br>Factores<br>Gramática de `ggplot2` | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion6/Sesion6.html)|
-| 7 | Listas<br>Bucles | [Próximamente](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion7/Sesion7.html)|
+| 7 | Listas<br>Bucles | [Ver sesión](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion7/Sesion7.html)|
 | 8 | Funciones personalizadas<br>Expresiones regulares (regex) | [Próximamente](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion8/Sesion8.html) |
 | 9 | Manejo y limpieza de datos | [Próximamente](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion9/Sesion9.html) |
 | 10 | Caso práctico: ... | [Próximamente](https://ciencia-computacional-himfg.github.io/Taller-Introduccion_R/Sesion10/Sesion10.html) |

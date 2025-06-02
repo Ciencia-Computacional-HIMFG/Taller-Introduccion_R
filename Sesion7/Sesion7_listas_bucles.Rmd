@@ -1,0 +1,218 @@
+---
+title: "Sesión 7 – Explicación detallada del bucle for para leer archivos"
+output: html_document
+---
+
+# ¿Qué es una lista en R?
+
+Una **lista** es una estructura versátil que puede almacenar diferentes tipos de objetos, incluyendo vectores, `data.frame`, strings, números e incluso otras listas.
+
+```{r}
+# Crear una lista simple
+mi_lista <- list(
+  nombre = "Ana",
+  edad = 30,
+  notas = c(8.5, 9.0, 10),
+  aprobado = TRUE
+)
+
+mi_lista
+```
+
+## 🎯 Acceso a elementos dentro de una lista
+
+```{r}
+# Acceso por nombre (con doble corchete)
+mi_lista[["notas"]]
+
+# Acceso por posición
+mi_lista[[2]]
+
+# Acceso por nombre usando el operador $
+mi_lista$nombre
+```
+
+---
+
+## 🧾 Almacenar `data.frames` dentro de una lista
+
+Las listas también permiten almacenar múltiples tablas:
+
+```{r}
+lista_df <- list(mtcars, ToothGrowth)
+```
+
+---
+
+# 🔁 `apply()` – Bucle vectorizado para matrices y `data.frames`
+
+La función `apply()` permite aplicar una operación sobre las **filas** o **columnas** de un objeto tipo `matrix` o `data.frame`.
+
+### 📚 Sintaxis
+
+```r
+apply(X, MARGIN, FUN, ...)
+```
+
+- `X`: matriz o `data.frame`
+- `MARGIN`: `1` para aplicar por filas, `2` para columnas
+- `FUN`: la función que deseas aplicar (por ejemplo: `mean`, `sum`, `summary`, etc.)
+
+---
+
+## 🧮 Ejemplos prácticos
+
+### ➕ Calcular promedios por columna
+
+```{r}
+apply(mtcars, 2, mean)
+```
+
+### 📊 Obtener resumen estadístico por columna
+
+```{r}
+apply(mtcars, 2, summary)
+```
+
+---
+
+## ❌ Alternativa manual (no recomendada)
+
+```{r}
+mean(mtcars$wt)
+mean(mtcars$gear)
+mean(mtcars$mpg)
+```
+
+✏️ Como puedes ver, hacerlo manualmente requiere muchas líneas.  
+Con `apply()`, el mismo resultado se logra con una sola línea, haciendo tu código más limpio y eficiente.
+
+## lapply() – bucle para listas
+```{r}
+# Devuelve una lista
+my_list <-list("Lisa","Pedro","Alberto")
+```
+Contar numero de caracteres con funcion nchar par todos los elementos de la lista
+```{r}
+lapply(my_list, nchar)
+```
+
+De otra forma tendría que realizarse la operación uno por uno
+```{r}
+nchar(my_list[[1]])
+nchar(my_list[[2]])
+nchar(my_list[[3]])
+```
+
+## 🔁 Uso de bucle `for` para leer múltiples archivos
+
+En esta sección explicaremos paso a paso cómo funciona el siguiente bloque de código. El objetivo es leer varios archivos `.csv` de forma automática y almacenarlos en una lista.
+
+```r
+# Crear lista vacía para almacenar resultados del bucle
+df_list <- list()
+# Almacenar archivos en vector filenames
+filenames <- list.files()
+for (ii in 1:10) {
+  # Leer archivos con read.csv
+  df_list[[ii]] <- read.csv(filenames[ii])
+}
+
+df_list
+```
+
+---
+
+### 🧠 ¿Qué hace este código?
+
+1. **`df_list <- list()`**
+
+   - Se crea una lista vacía llamada `df_list`.
+   - Esta lista servirá como contenedor para guardar los resultados que obtengamos dentro del bucle.
+
+---
+
+2. **`for (ii in 1:10)`**
+
+   - Aquí se define un bucle que se ejecutará 10 veces.
+   - La variable `ii` irá tomando valores del 1 al 10 automáticamente:
+     - En la **primera vuelta**, `ii = 1`
+     - En la **segunda vuelta**, `ii = 2`
+     - ...
+     - En la **décima vuelta**, `ii = 10`
+   - En cada vuelta, se ejecuta el bloque de código que está entre llaves `{}`.
+
+---
+
+3. **`read.csv(filenames[ii])`**
+
+   - `filenames` es un vector que contiene los nombres de los archivos `.csv` que queremos leer.
+   - En cada vuelta, `filenames[ii]` accede al archivo correspondiente según el valor de `ii`.
+     - Por ejemplo, si `ii = 3`, se leerá el archivo `filenames[3]`.
+   - `read.csv()` carga ese archivo y lo convierte en un `data.frame`.
+
+---
+
+4. **`df_list[[ii]] <- ...`**
+
+   - El resultado de `read.csv()` se guarda dentro de la lista `df_list` en la posición `ii`.
+   - Así, el primer archivo va a `df_list[[1]]`, el segundo a `df_list[[2]]`, y así sucesivamente.
+
+---
+
+### 📦 Resultado final
+
+Después de que el bucle termina:
+
+- `df_list` contiene **10 objetos tipo `data.frame`**, uno por cada archivo leído.
+- Puedes acceder a cada uno usando `df_list[[1]]`, `df_list[[2]]`, ..., `df_list[[10]]`.
+
+---
+
+### 🎯 ¿Por qué es útil este patrón?
+
+- Automatiza la lectura de múltiples archivos sin repetir código.
+- Organiza los resultados en una lista accesible.
+- Es fácil de adaptar para leer 5, 100 o más archivos cambiando el rango del bucle.
+
+---
+
+# 🛠 Crear múltiples gráficos con `for` loop
+
+```{r}
+library(ggplot2)
+library(cowplot)
+
+plot_list <- list()
+
+for (ii in 1:ncol(mtcars)) {
+  axis_titles <- colnames(mtcars[, c(1, ii)])
+  my_df <- mtcars[, c(1, ii)]
+  colnames(my_df) <- c("x_axis", "y_axis")
+
+  plot_list[[ii]] <- ggplot(my_df, aes(x = x_axis, y = y_axis)) +
+    geom_point() +
+    xlab(axis_titles[1]) +
+    ylab(axis_titles[2])
+}
+
+cowplot::plot_grid(plotlist = plot_list)
+```
+
+🎯 Este bucle:
+- Toma cada columna del `mtcars` (salvo la primera).
+- Crea un gráfico de dispersión contra la primera variable (`mpg`).
+- Almacena todos los gráficos en una lista (`plot_list`).
+- Finalmente los muestra todos juntos usando `plot_grid()`.
+
+---
+
+# 🧠 ¿Cuándo usar `apply`, `lapply`, `for`?
+
+| Tipo     | Ideal para...                     | Devuelve         |
+|----------|-----------------------------------|------------------|
+| `for`    | Control total / pasos secuenciales| Nada (o manual)  |
+| `apply`  | Operar sobre filas o columnas     | Vector / matriz  |
+| `lapply` | Operar sobre listas               | Lista            |
+
+---
