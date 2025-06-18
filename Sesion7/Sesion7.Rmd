@@ -1,5 +1,5 @@
 ---
-title: "Sesión 7 – Explicación detallada del bucle for para leer archivos"
+title: "Sesión 7 – Listas y bucles (apply, lapply, for loop)"
 output: html_document
 ---
 
