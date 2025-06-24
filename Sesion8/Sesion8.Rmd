@@ -1,0 +1,206 @@
+---
+title: "Sesion8: Expressiones regulares (Regex) y creación de funciones propias"
+output: html_document
+---
+
+## 📘 Funciones útiles y REGEX
+
+En esta sesión, el objetivo es entender expresiones regulares y la creación de funciones propias. Adicionalmente se revisan funciones útiles como:
+
+1. **Concatenación de texto** usando las funciones `paste()` y `paste0()`.
+2. **Generación de aleatoriedad controlada** usando `set.seed()` y `sample()`.
+3. **Encontrar posiciones específicas de un patrón de caracteres** usando `grep()`.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Uso de `set.seed()` y `sample()` para letras aleatorias
+
+La función `set.seed()` se usa para fijar la semilla de aleatoriedad, lo que asegura que los resultados sean **reproducibles**. La función `sample()` permite extraer muestras aleatorias.
+
+```{r}
+set.seed(123)  # Fija la semilla para resultados reproducibles
+# Ejemplo 1:
+sample(LETTERS, 5)  # Toma 5 letras mayúsculas al azar
+# Resultado: "W" "I" "F" "O" "X"
+```
+
+---
+
+## Ejemplo 2: Crear nombres de archivos numerados
+
+```{r}
+paste0("archivo_", 1:5, ".csv")
+# Resultado: "archivo_1.csv" "archivo_2.csv" ... "archivo_5.csv"
+```
+
+---
+
+## Ejemplo 3: Unir texto y resultados numéricos
+
+```{r}
+temperatura <- 25
+paste("La temperatura es", temperatura, "grados.")
+# Resultado: "La temperatura es 25 grados."
+```
+
+---
+
+## Ejemplo 4: Construir nombres de columnas con separador personalizado
+
+```{r}
+paste(LETTERS[1:4], 1:4, sep = "_")
+# Resultado: "A_1" "B_2" "C_3" "D_4"
+```
+
+---
+
+## Ejemplo 5: Usar `collapse` para unir todo en una sola cadena
+Esta opción permite unir varios elementos en una sola cadena de texto
+
+```{r}
+paste(c("A", "B", "C"), collapse = "-")
+# Resultado: "A-B-C"
+```
+
+---
+
+## Ejercicio: Generar nombres de genes simulados
+
+Este ejemplo muestra cómo construir nombres simulados de genes, combinando `paste0()` y `sample()` para ilustrar cómo crear datos similares a los utilizados en bioinformática.
+
+Usar bucles para ahorrar tiempo y practicar lo visto en sesiones pasadas
+
+```{r}
+set.seed(101)
+# Opcion 1: for loop
+random_letters <- vector()
+for (ii in 1:6) {
+  random_letters[ii] <- paste(sample(LETTERS, 4), collapse = "")
+}
+# Opcion 2: sapply
+random_letters <- sapply(1:6, function(x) paste(sample(LETTERS, 4), collapse = ""))
+
+# Generar números aleatorios para sufijos numéricos
+random_numbers <- sample(1:30, 6)
+
+# Simular genes tipo ISG, IRF y orf
+ISG_genes <- paste0("ISG", random_numbers)
+IRF_genes <- paste0("IRF", random_numbers)
+orf_genes <- paste0("C", random_letters, "orf", random_numbers)
+
+# Otros genes con fines didacticos
+otros_genes <- c("TISG", "PISG12", "TIRFB", "123orfAA", "CCorf12", "FGorf")
+
+# Unir todos los genes y mezclarlos
+genes <- c(ISG_genes, IRF_genes, orf_genes, otros_genes)
+lista_genes <- sample(genes)
+
+# Mostrar resultado
+lista_genes
+```
+
+---
+
+## Expresiones regulares básicas
+
+- `^` → empieza con
+- `$` → termina con
+- `[A-Z]` → Una letra mayúscula entre A y Z 
+- `[0-9]` → Un número en 0 y 9 
+- `[A-Z]{4}` → exactamente 4 letras mayúsculas
+- `orf[0-9]` → la palabra "orf" seguida de un dígito
+- `\d` → cualquier dígito (equivalente a `[0-9]`)
+- `.` → cualquier carácter (usa `\.` para buscar un punto literal)
+
+---
+
+## Ejercicios con `grep()` y expresiones regulares
+
+La función `grep()` busca patrones en vectores de texto. Por defecto, devuelve las **posiciones** donde el patrón se encuentra. Puedes usarlo junto con expresiones regulares para hacer búsquedas más avanzadas.
+
+```{r}
+# Buscar todas las posiciones que contienen "IRF" en cualquier parte de la cadena.
+grep("IRF", lista_genes)
+
+# Usar los resultados para seleccionar elementos que contienen IRF
+lista_genes[grep("IRF", lista_genes)] # TIRFB tambien cumple con la condicion
+
+# Buscar solo las que **empiezan con** "IRF"
+lista_genes[grep("^IRF", lista_genes)]
+
+# Buscar solo las que **empiezan con** "ISG"
+lista_genes[grep("^ISG", lista_genes)]
+
+# Buscar solo conincidencias exactas de "ISG"
+lista_genes[grep("^ISG$", lista_genes)] # Ninguno cumple la condicion
+
+# Buscar genes que empiecen con "ISG" o "IRF"
+lista_genes[grep("^ISG|^IRF", lista_genes)]  # el operador | actúa como una unión (OR)
+
+# Buscar genes que terminan con "28"
+lista_genes[grep("28$", lista_genes)]  # $ indica "termina con"
+
+# Buscar genes que contienen "orf"
+lista_genes[grep("orf", lista_genes)] # Esto tambien arroja genes, como 123orfAA, CCorf12 y FGorf
+
+# Buscar genes donde "orf" va seguido de un número.
+lista_genes[grep("orf[0-9]", lista_genes)] # Esto tambien arroja genes, como CCorf12
+
+# La expresion definitiva seria buscar genes que tienen al menos 4 letras antes de "orf" y luego un número
+lista_genes[grep("[A-Z]{4}orf[0-9]", lista_genes)]
+```
+
+---
+
+## Ejemplos adicionales
+
+```{r}
+correo <- c("eric.com", "TallerR@gmail.com", "insituto.mexicano.mx", "contraseña")
+
+# . (punto) significa cualquier carácter, por lo tanto esto detecta todo
+correo[grep(".", correo)]
+
+# Para buscar un punto literal, se necesita escapar con \.
+correo[grep("\\.", correo)]
+```
+
+---
+
+## Crear nuestras propias funciones en R
+
+Una función en R permite encapsular código reutilizable. Aquí hay ejemplos sencillos para practicar la creación de funciones.
+
+### Ejemplo 1: Función `saludo()` con argumento opcional
+
+```{r}
+saludo <- function(nombre = "amigo") {
+  mensaje <- paste("Hola", nombre)
+  return(mensaje)
+}
+
+saludo("Ana")
+# [1] "Hola Ana"
+
+saludo()
+# [1] "Hola amigo"
+```
+
+### Ejemplo 2: Función `respuesta_automatica()` con condicionales
+
+```{r}
+respuesta_automatica <- function(hoy){
+  if (hoy == "viernes") {
+    mensaje <- "Lo vemos el lunes"
+  } else if (hoy %in% c("sabado","domingo")){
+    mensaje <- "Hoy no trabajo"
+  } else {
+    mensaje <- "De inmediato"
+  }
+  return(mensaje)
+}
+
+respuesta_automatica(hoy = "lunes")
+# [1] "De inmediato"
+```
