@@ -118,7 +118,8 @@ lista_genes
 
 ## Ejercicios con `grep()` y expresiones regulares
 
-La función `grep()` busca patrones en vectores de texto. Por defecto, devuelve las **posiciones** donde el patrón se encuentra. Puedes usarlo junto con expresiones regulares para hacer búsquedas más avanzadas.
+La función `grep()` busca patrones en vectores de texto. Por defecto, devuelve las **posiciones** donde el patrón se encuentra. Puedes usarlo junto con expresiones regulares para hacer búsquedas más avanzadas. Por ejemplo, me interesa saber si mi paciente tiene una respues antiviral efectiva.
+Para esto, debo identificar los genes de respuesta a interferon, estos empiezan con "IRF" e "ISG"
 
 ```{r}
 # Buscar todas las posiciones que contienen "IRF" en cualquier parte de la cadena.
@@ -133,16 +134,16 @@ lista_genes[grep("^IRF", lista_genes)]
 # Buscar solo las que **empiezan con** "ISG"
 lista_genes[grep("^ISG", lista_genes)]
 
-# Buscar solo conincidencias exactas de "ISG"
-lista_genes[grep("^ISG$", lista_genes)] # Ninguno cumple la condicion
-
 # Buscar genes que empiecen con "ISG" o "IRF"
 lista_genes[grep("^ISG|^IRF", lista_genes)]  # el operador | actúa como una unión (OR)
 
 # Buscar genes que terminan con "28"
 lista_genes[grep("28$", lista_genes)]  # $ indica "termina con"
 
-# Buscar genes que contienen "orf"
+# Buscar solo conincidencias exactas de "ISG"
+lista_genes[grep("^ISG$", lista_genes)] # Ninguno cumple la condicion
+
+# Genes que contienen "orf" no estan caracterizados. Recomendable eliminarlos previo al analisis
 lista_genes[grep("orf", lista_genes)] # Esto tambien arroja genes, como 123orfAA, CCorf12 y FGorf
 
 # Buscar genes donde "orf" va seguido de un número.
@@ -150,6 +151,16 @@ lista_genes[grep("orf[0-9]", lista_genes)] # Esto tambien arroja genes, como CCo
 
 # La expresion definitiva seria buscar genes que tienen al menos 4 letras antes de "orf" y luego un número
 lista_genes[grep("[A-Z]{4}orf[0-9]", lista_genes)]
+
+# Variante de grep: grepl devuelve valores logicos en lugar de posiciones
+grepl("[A-Z]{4}orf[0-9]", lista_genes)
+
+# Usamos el vector logico en lugar del vector numerico para seleccionar valores
+lista_genes[grepl("[A-Z]{4}orf[0-9]", lista_genes)]
+
+# Podemos invertir los valores logicos con `!` para eliminar genes no deseados
+lista_genes[!grepl("[A-Z]{4}orf[0-9]", lista_genes)]
+
 ```
 
 ---

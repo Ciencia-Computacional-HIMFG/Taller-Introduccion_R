@@ -477,7 +477,9 @@ un punto literal)</li>
 <p>La función <code>grep()</code> busca patrones en vectores de texto.
 Por defecto, devuelve las <strong>posiciones</strong> donde el patrón se
 encuentra. Puedes usarlo junto con expresiones regulares para hacer
-búsquedas más avanzadas.</p>
+búsquedas más avanzadas. Por ejemplo, me interesa saber si mi paciente
+tiene una respues antiviral efectiva. Para esto, debo identificar los
+genes de respuesta a interferon, estos empiezan con “IRF” e “ISG”</p>
 <pre class="r"><code># Buscar todas las posiciones que contienen &quot;IRF&quot; en cualquier parte de la cadena.
 grep(&quot;IRF&quot;, lista_genes)</code></pre>
 <pre><code>## [1]  1  8  9 12 19 21 22</code></pre>
@@ -490,9 +492,6 @@ lista_genes[grep(&quot;^IRF&quot;, lista_genes)]</code></pre>
 <pre class="r"><code># Buscar solo las que **empiezan con** &quot;ISG&quot;
 lista_genes[grep(&quot;^ISG&quot;, lista_genes)]</code></pre>
 <pre><code>## [1] &quot;ISG13&quot; &quot;ISG16&quot; &quot;ISG28&quot; &quot;ISG1&quot;  &quot;ISG22&quot; &quot;ISG14&quot;</code></pre>
-<pre class="r"><code># Buscar solo conincidencias exactas de &quot;ISG&quot;
-lista_genes[grep(&quot;^ISG$&quot;, lista_genes)] # Ninguno cumple la condicion</code></pre>
-<pre><code>## character(0)</code></pre>
 <pre class="r"><code># Buscar genes que empiecen con &quot;ISG&quot; o &quot;IRF&quot;
 lista_genes[grep(&quot;^ISG|^IRF&quot;, lista_genes)]  # el operador | actúa como una unión (OR)</code></pre>
 <pre><code>##  [1] &quot;IRF14&quot; &quot;ISG13&quot; &quot;IRF28&quot; &quot;IRF22&quot; &quot;ISG16&quot; &quot;ISG28&quot; &quot;ISG1&quot;  &quot;IRF16&quot; &quot;ISG22&quot;
@@ -500,7 +499,10 @@ lista_genes[grep(&quot;^ISG|^IRF&quot;, lista_genes)]  # el operador | actúa co
 <pre class="r"><code># Buscar genes que terminan con &quot;28&quot;
 lista_genes[grep(&quot;28$&quot;, lista_genes)]  # $ indica &quot;termina con&quot;</code></pre>
 <pre><code>## [1] &quot;CTFXGorf28&quot; &quot;IRF28&quot;      &quot;ISG28&quot;</code></pre>
-<pre class="r"><code># Buscar genes que contienen &quot;orf&quot;
+<pre class="r"><code># Buscar solo conincidencias exactas de &quot;ISG&quot;
+lista_genes[grep(&quot;^ISG$&quot;, lista_genes)] # Ninguno cumple la condicion</code></pre>
+<pre><code>## character(0)</code></pre>
+<pre class="r"><code># Genes que contienen &quot;orf&quot; no estan caracterizados. Recomendable eliminarlos previo al analisis
 lista_genes[grep(&quot;orf&quot;, lista_genes)] # Esto tambien arroja genes, como 123orfAA, CCorf12 y FGorf</code></pre>
 <pre><code>## [1] &quot;CCJTBorf14&quot; &quot;CTFXGorf28&quot; &quot;CCorf12&quot;    &quot;CQLCIorf16&quot; &quot;FGorf&quot;     
 ## [6] &quot;CTNHXorf13&quot; &quot;CZKUXorf1&quot;  &quot;123orfAA&quot;   &quot;CJZIEorf22&quot;</code></pre>
@@ -512,6 +514,19 @@ lista_genes[grep(&quot;orf[0-9]&quot;, lista_genes)] # Esto tambien arroja genes
 lista_genes[grep(&quot;[A-Z]{4}orf[0-9]&quot;, lista_genes)]</code></pre>
 <pre><code>## [1] &quot;CCJTBorf14&quot; &quot;CTFXGorf28&quot; &quot;CQLCIorf16&quot; &quot;CTNHXorf13&quot; &quot;CZKUXorf1&quot; 
 ## [6] &quot;CJZIEorf22&quot;</code></pre>
+<pre class="r"><code># Variante de grep: grepl devuelve valores logicos en lugar de posiciones
+grepl(&quot;[A-Z]{4}orf[0-9]&quot;, lista_genes)</code></pre>
+<pre><code>##  [1] FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+## [13] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code># Usamos el vector logico en lugar del vector numerico para seleccionar valores
+lista_genes[grepl(&quot;[A-Z]{4}orf[0-9]&quot;, lista_genes)]</code></pre>
+<pre><code>## [1] &quot;CCJTBorf14&quot; &quot;CTFXGorf28&quot; &quot;CQLCIorf16&quot; &quot;CTNHXorf13&quot; &quot;CZKUXorf1&quot; 
+## [6] &quot;CJZIEorf22&quot;</code></pre>
+<pre class="r"><code># Podemos invertir los valores logicos con `!` para eliminar genes no deseados
+lista_genes[!grepl(&quot;[A-Z]{4}orf[0-9]&quot;, lista_genes)]</code></pre>
+<pre><code>##  [1] &quot;IRF14&quot;    &quot;CCorf12&quot;  &quot;FGorf&quot;    &quot;ISG13&quot;    &quot;IRF28&quot;    &quot;IRF22&quot;   
+##  [7] &quot;ISG16&quot;    &quot;TIRFB&quot;    &quot;PISG12&quot;   &quot;123orfAA&quot; &quot;ISG28&quot;    &quot;TISG&quot;    
+## [13] &quot;ISG1&quot;     &quot;IRF16&quot;    &quot;ISG22&quot;    &quot;IRF1&quot;     &quot;IRF13&quot;    &quot;ISG14&quot;</code></pre>
 <hr />
 </div>
 <div id="ejemplos-adicionales" class="section level2">
